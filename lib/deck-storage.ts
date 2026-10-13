@@ -5,8 +5,9 @@ import { del, get } from "@vercel/blob";
 
 /**
  * Where uploaded deck HTML lives. On Vercel that's a private Blob store
- * (connected stores provide BLOB_STORE_ID + OIDC, or a BLOB_READ_WRITE_TOKEN);
- * in local dev without Blob credentials it's the gitignored .data/ folder.
+ * (connecting the store to the project sets BLOB_READ_WRITE_TOKEN, which
+ * browser uploads need to mint client tokens); in local dev without it, the
+ * gitignored .data/ folder.
  *
  * Decks are too big (~18 MB) to go through a Vercel Function request body
  * (4.5 MB cap), so in Blob mode the browser uploads straight to Blob — see
@@ -14,7 +15,7 @@ import { del, get } from "@vercel/blob";
  * app/api/admin/versions/local-upload.
  */
 export function usesBlobStorage(): boolean {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 }
 
 export const MAX_DECK_BYTES = 100 * 1024 * 1024;

@@ -55,8 +55,8 @@ Deck versions are ~18 MB of HTML, mostly inline images. That's too big for a
 Vercel Function request body (4.5 MB), so:
 
 - **On Vercel**, files go in a **private Vercel Blob store**. The admin's
-  browser uploads straight to Blob with a short-lived presigned URL
-  (`/api/admin/versions/blob-upload`), then registers the upload as a version.
+  browser uploads straight to Blob with a short-lived client token from
+  `/api/admin/versions/blob-upload`, then registers the upload as a version.
   The deck is streamed back to reps, and streamed responses aren't capped.
 - **Locally**, without Blob credentials, files go in `.data/` (gitignored) via
   `/api/admin/versions/local-upload`.
@@ -104,7 +104,7 @@ Vercel; locally it's blank, which is expected.
 | `AUTH_SECRET` | Any random secret, e.g. `openssl rand -base64 32`. |
 | `ALLOWED_EMAIL_DOMAIN` | `elastio.com`. Only Google accounts on this domain can sign in at all. |
 | `ADMIN_EMAILS` | Comma-separated emails that are always admins, e.g. `yabood@elastio.com`. |
-| `BLOB_STORE_ID` or `BLOB_READ_WRITE_TOKEN` | Set automatically when a Blob store is connected to the Vercel project. Leave unset locally to store decks in `.data/`. |
+| `BLOB_READ_WRITE_TOKEN` | Set automatically when a Blob store is connected to the Vercel project. Leave unset locally to store decks in `.data/`. |
 
 ## Deploying
 

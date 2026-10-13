@@ -15,8 +15,8 @@ function labelFromFilename(name: string): string {
 async function uploadFile(file: File, storage: "blob" | "local", onProgress: (pct: number) => void): Promise<string> {
   if (storage === "blob") {
     // Straight from the browser to Blob: the file is bigger than a function request body allows.
-    const { uploadPresigned } = await import("@vercel/blob/client");
-    const blob = await uploadPresigned(`deck-versions/${crypto.randomUUID()}.html`, file, {
+    const { upload } = await import("@vercel/blob/client");
+    const blob = await upload(`deck-versions/${crypto.randomUUID()}.html`, file, {
       access: "private",
       contentType: "text/html",
       handleUploadUrl: "/api/admin/versions/blob-upload",
